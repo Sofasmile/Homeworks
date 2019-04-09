@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 public class DeveloperOperation {
     private String pathToTheQuery = "src/main/resources/queries/";
-    private static final Logger LOGGER = Logger.getLogger(JdbcConnectionUtil.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DeveloperOperation.class.getName());
     private static final String SELECT_ID = "SELECT * FROM developers WHERE id = ?";
     private static final String SELECT_ALL = "SELECT * FROM developers";
     private static final String INSERT = "INSERT INTO developers(name, age, gender, salary) VALUES(?, ?, ?, ?)";
