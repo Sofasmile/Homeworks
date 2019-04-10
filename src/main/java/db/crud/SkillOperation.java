@@ -20,81 +20,91 @@ public class SkillOperation {
     private static final String UPDATE = "UPDATE developers SET industry = ?, level = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM skills WHERE id = ?";
 
-    public Skill selectById(int id) {
+    public Skill selectById(int id) throws SQLException {
+        ResultSet resultSet = null;
         try (Connection connection = JdbcConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID)) {
             assert connection != null;
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             Skill skill = createSkill(resultSet);
-            resultSet.close();
             return skill;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+        } finally {
+            resultSet.close();
         }
         return null;
     }
 
-    public List<Skill> selectAll() {
+    public List<Skill> selectAll() throws SQLException {
+        ResultSet resultSet = null;
         try (Connection connection = JdbcConnectionUtil.getConnection();
              Statement statement = connection.createStatement()) {
             assert connection != null;
-            ResultSet resultSet = statement.executeQuery(SELECT_ALL);
+            resultSet = statement.executeQuery(SELECT_ALL);
             List<Skill> result = new ArrayList<>();
             while (resultSet.next()) {
                 result.add(createSkill(resultSet));
             }
-            resultSet.close();
             return result;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+        } finally {
+            resultSet.close();
         }
         return null;
     }
 
-    public void deleteById(int id) {
+    public void deleteById(int id) throws SQLException {
+        PreparedStatement preparedStatement = null;
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
+            preparedStatement = connection.prepareStatement(DELETE);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
-            preparedStatement.close();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+        } finally {
+            preparedStatement.close();
         }
     }
 
-    public void insert(Skill object) {
+    public void insert(Skill object) throws SQLException {
+        PreparedStatement preparedStatement = null;
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT);
+            preparedStatement = connection.prepareStatement(INSERT);
             preparedStatement.setString(1, object.getIndustry());
             preparedStatement.setString(2, object.getLevel());
             preparedStatement.executeUpdate();
             connection.commit();
-            preparedStatement.close();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+        } finally {
+            preparedStatement.close();
         }
     }
 
-    public void update(Skill object) {
+    public void update(Skill object) throws SQLException {
+        PreparedStatement preparedStatement = null;
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
+            preparedStatement = connection.prepareStatement(UPDATE);
             preparedStatement.setString(1, object.getIndustry());
             preparedStatement.setString(2, object.getLevel());
             preparedStatement.setInt(3, object.getId());
             preparedStatement.executeUpdate();
             connection.commit();
-            preparedStatement.close();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+        } finally {
+            preparedStatement.close();
         }
     }
 
