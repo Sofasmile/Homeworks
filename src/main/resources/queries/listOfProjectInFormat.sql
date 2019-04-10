@@ -1,5 +1,5 @@
-#список проектов в следующем формате: дата создания - название проекта - количество разработчиков на этом проекте
-select p.create_date, p.name, count(d.id)
-from projects p, project_developer pd, developers d
-where p.id = pd.id_project and d.id = pd.id_project
-group by p.name;
+#list of projects in the following format: creation date - project name - number of developers on this project
+SELECT p.create_date, p.name, count(d.id)
+FROM projects p, project_developer pd, developers d
+WHERE p.id = pd.id_project AND d.id = pd.id_project
+GROUP BY p.name;

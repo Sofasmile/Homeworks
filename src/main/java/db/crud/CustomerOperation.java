@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomerOperation {
@@ -32,10 +33,10 @@ public class CustomerOperation {
             return customer;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            return null;
         } finally {
             resultSet.close();
         }
-        return null;
     }
 
     public List<Customer> selectAll() throws SQLException {
@@ -54,7 +55,7 @@ public class CustomerOperation {
         } finally {
             resultSet.close();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public void deleteById(int id) throws SQLException {

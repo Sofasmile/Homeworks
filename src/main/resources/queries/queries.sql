@@ -1,32 +1,32 @@
-#Добавить разработчикам поле (salary - зарплата).
-alter table developers
-  add salary int not null;
+#Add developers field (salary - salary).
+ALTER TABLE developers
+  ADD salary INT NOT NULL ;
 
-#Найти самый дорогой проект (исходя из salary всех разработчиков).
-select *
-from projects
-       inner join project_developer on projects.id = project_developer.id_project
-       inner join developers on project_developer.id_developer = developers.id
-group by projects.id
-order by sumSalary DESC
+#Find the most expensive project (based on the salary of all developers).
+SELECT *
+FROM projects
+INNER JOIN project_developer ON projects.id = project_developer.id_project
+INNER JOIN developers ON project_developer.id_developer = developers.id
+GROUP BY projects.id
+ORDER BY sumSalary DESC
 LIMIT 1;
 
-#Вычислить общую ЗП только Java разработчиков.
-select sum(salary)
-from developers
-       inner join skills on developers.developer_id = skills.developer_id
-where skills.industry = "JAVA";
+#Calculate total GP of only Java developers.
+SELECT sum(salary)
+FROM developers
+INNER JOIN skills ON developers.developer_id = skills.developer_id
+WHERE skills.industry = "JAVA";
 
-#Добавить поле (cost - стоимость) в таблицу Projects .
-alter table projects
-  add cost  int not null;
+#Add a field (cost) to the Projects table.
+ALTER TABLE projects
+ADD cost  INT NOT NULL ;
 
-#Найти самый дешевый проект (исходя из cost всех проектов).
-select p.name
-from projects p
-where p.cost = (select MIN(cost) from projects);
+#Find the cheapest project (based on the cost of all projects).
+SELECT p.name
+FROM projects p
+WHERE p.cost = (SELECT MIN(cost) FROM projects);
 
-#Вычислить среднюю ЗП программистов в самом дешевом проекте.
-select AVG(d.salary)
-from developers d, project_developer pd, projects p
-where d.id = pd.id_developer and p.id = pd.id_project and p.cost = (select MIN(cost) from projects);
+#Calculate the average salary of programmers in the cheapest project.
+SELECT AVG(d.salary)
+FROM developers d, project_developer pd, projects p
+WHERE d.id = pd.id_developer AND p.id = pd.id_project AND p.cost = (SELECT MIN(cost) FROM projects);

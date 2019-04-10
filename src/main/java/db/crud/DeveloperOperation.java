@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,16 +31,16 @@ public class DeveloperOperation {
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID)) {
             assert connection != null;
             preparedStatement.setInt(1, id);
-             resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             Developer developer = createDeveloper(resultSet);
             return developer;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+            return null;
+        } finally {
             resultSet.close();
         }
-        return null;
     }
 
     public List<Developer> selectAll() throws SQLException {
@@ -47,7 +48,7 @@ public class DeveloperOperation {
         try (Connection connection = JdbcConnectionUtil.getConnection();
              Statement statement = connection.createStatement()) {
             assert connection != null;
-             resultSet = statement.executeQuery(SELECT_ALL);
+            resultSet = statement.executeQuery(SELECT_ALL);
             List<Developer> result = new ArrayList<>();
             while (resultSet.next()) {
                 result.add(createDeveloper(resultSet));
@@ -55,10 +56,10 @@ public class DeveloperOperation {
             return result;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             resultSet.close();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public void deleteById(int id) throws SQLException {
@@ -66,13 +67,13 @@ public class DeveloperOperation {
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-             preparedStatement = connection.prepareStatement(DELETE);
+            preparedStatement = connection.prepareStatement(DELETE);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             preparedStatement.close();
         }
     }
@@ -82,7 +83,7 @@ public class DeveloperOperation {
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-             preparedStatement = connection.prepareStatement(INSERT);
+            preparedStatement = connection.prepareStatement(INSERT);
             preparedStatement.setString(1, object.getName());
             preparedStatement.setInt(2, object.getAge());
             preparedStatement.setString(3, object.getGender());
@@ -91,7 +92,7 @@ public class DeveloperOperation {
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             preparedStatement.close();
         }
     }
@@ -101,7 +102,7 @@ public class DeveloperOperation {
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-             preparedStatement = connection.prepareStatement(UPDATE);
+            preparedStatement = connection.prepareStatement(UPDATE);
             preparedStatement.setString(1, object.getName());
             preparedStatement.setInt(2, object.getAge());
             preparedStatement.setString(3, object.getGender());
@@ -111,7 +112,7 @@ public class DeveloperOperation {
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             preparedStatement.close();
         }
     }
@@ -147,10 +148,10 @@ public class DeveloperOperation {
             return salary;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+            return 0;
+        } finally {
             resultSet.close();
         }
-        return 0;
     }
 
     private List<Developer> selectAllByCondition(String conditionalField, String pathToSql) throws SQLException {
@@ -174,10 +175,10 @@ public class DeveloperOperation {
             return result;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             resultSet.close();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     private Developer createDeveloper(ResultSet resultSet) throws SQLException {

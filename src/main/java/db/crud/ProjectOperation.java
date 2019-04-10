@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectOperation {
@@ -26,13 +27,13 @@ public class ProjectOperation {
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID)) {
             assert connection != null;
             preparedStatement.setInt(1, id);
-             resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
             Project project = createProject(resultSet);
             return project;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             resultSet.close();
         }
         return null;
@@ -43,7 +44,7 @@ public class ProjectOperation {
         try (Connection connection = JdbcConnectionUtil.getConnection();
              Statement statement = connection.createStatement()) {
             assert connection != null;
-             resultSet = statement.executeQuery(SELECT_ALL);
+            resultSet = statement.executeQuery(SELECT_ALL);
             List<Project> result = new ArrayList<>();
             while (resultSet.next()) {
                 result.add(createProject(resultSet));
@@ -51,10 +52,10 @@ public class ProjectOperation {
             return result;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             resultSet.close();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public void deleteById(int id) throws SQLException {
@@ -62,13 +63,13 @@ public class ProjectOperation {
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-             preparedStatement = connection.prepareStatement(DELETE);
+            preparedStatement = connection.prepareStatement(DELETE);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             preparedStatement.close();
         }
     }
@@ -78,7 +79,7 @@ public class ProjectOperation {
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-             preparedStatement = connection.prepareStatement(INSERT);
+            preparedStatement = connection.prepareStatement(INSERT);
             preparedStatement.setString(1, object.getName());
             preparedStatement.setDouble(2, object.getCost());
             preparedStatement.setDate(3, object.getDate());
@@ -86,7 +87,7 @@ public class ProjectOperation {
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             preparedStatement.close();
         }
     }
@@ -96,7 +97,7 @@ public class ProjectOperation {
         try (Connection connection = JdbcConnectionUtil.getConnection()) {
             assert connection != null;
             connection.setAutoCommit(false);
-             preparedStatement = connection.prepareStatement(UPDATE);
+            preparedStatement = connection.prepareStatement(UPDATE);
             preparedStatement.setString(1, object.getName());
             preparedStatement.setDouble(2, object.getCost());
             preparedStatement.setDate(3, object.getDate());
@@ -105,7 +106,7 @@ public class ProjectOperation {
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-        }finally {
+        } finally {
             preparedStatement.close();
         }
     }
