@@ -1,9 +1,11 @@
 package jpa.dao;
 
 import jpa.entity.Company;
+import lombok.extern.log4j.Log4j;
 
 import javax.persistence.EntityManager;
 
+@Log4j
 public class CompanyDao {
     private EntityManager entityManager;
 
@@ -21,7 +23,8 @@ public class CompanyDao {
             if (entityManager != null) {
                 entityManager.getTransaction().rollback();
             }
-            throw e;
+            log.error(e.getMessage());
+            return false;
         }
     }
 
@@ -35,21 +38,23 @@ public class CompanyDao {
             if (entityManager != null) {
                 entityManager.getTransaction().rollback();
             }
-            throw e;
+            log.error(e.getMessage());
+            return false;
         }
     }
 
-    public Company readCompany(Long id){
-        try{
+    public Company readCompany(Long id) {
+        try {
             entityManager.getTransaction().begin();
             Company company = entityManager.find(Company.class, id);
             entityManager.getTransaction().commit();
             return company;
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             if (entityManager != null) {
                 entityManager.getTransaction().rollback();
             }
-            throw e;
+            log.error(e.getMessage());
+            return null;
         }
     }
 
@@ -63,7 +68,8 @@ public class CompanyDao {
             if (entityManager != null) {
                 entityManager.getTransaction().rollback();
             }
-            throw e;
+            log.error(e.getMessage());
+            return false;
         }
     }
 }
