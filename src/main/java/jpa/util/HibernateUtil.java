@@ -4,7 +4,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class HibernateUtil {
+public final class HibernateUtil {
+    private HibernateUtil() {
+    }
+
     private static final String PERSISTENCE_UNIT_NAME = "PERSISTENCE";
     private static EntityManagerFactory factory;
 
