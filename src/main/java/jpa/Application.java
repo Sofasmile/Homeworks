@@ -1,6 +1,6 @@
 package jpa;
 
-import jpa.dao.DeveloperDao;
+import jpa.dao.implementation.DeveloperDaoImpl;
 import jpa.entity.Developer;
 import jpa.util.HibernateUtil;
 
@@ -16,7 +16,7 @@ public class Application {
         developer.setGender("male");
         developer.setSalary(2000.00);
 
-        DeveloperDao developerDao = new DeveloperDao(entityManager);
+        DeveloperDaoImpl developerDao = new DeveloperDaoImpl(entityManager);
         developerDao.insertDeveloper(developer);
         HibernateUtil.shutdown();
     }
