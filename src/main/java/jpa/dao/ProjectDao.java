@@ -7,7 +7,7 @@ public interface ProjectDao {
 
     boolean updateProject(Project project);
 
-    Project readProject(Long id);
+    Project getByIdProject(Long id);
 
     boolean deleteProject(Long id);
 }

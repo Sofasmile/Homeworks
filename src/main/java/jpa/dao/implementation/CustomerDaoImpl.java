@@ -47,7 +47,7 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Customer readCustomer(Long id) {
+    public Customer getByIdCustomer(Long id) {
         try {
             entityManager.getTransaction().begin();
             Customer customer = entityManager.find(Customer.class, id);

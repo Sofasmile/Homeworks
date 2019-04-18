@@ -10,6 +10,8 @@ import lombok.extern.log4j.Log4j;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,8 +41,9 @@ public class Skill {
     private Long id;
     @Column(name = "industry")
     private String industry;
+    @Enumerated(EnumType.STRING)
     @Column(name = "level")
-    private String level;
+    private LevelType level;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "skills")
     private Set<Developer> developers = new HashSet<>();

@@ -7,7 +7,7 @@ public interface SkillDao {
 
     boolean updateSkill(Skill skill);
 
-    Skill readSkill(Long id);
+    Skill getByIdSkill(Long id);
 
     boolean deleteSkill(Long id);
 }

@@ -47,7 +47,7 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     @Override
-    public Company readCompany(Long id) {
+    public Company getByIdCompany(Long id) {
         try {
             entityManager.getTransaction().begin();
             Company company = entityManager.find(Company.class, id);

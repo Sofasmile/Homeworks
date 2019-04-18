@@ -47,7 +47,7 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public Project readProject(Long id) {
+    public Project getByIdProject(Long id) {
         try {
             entityManager.getTransaction().begin();
             Project project = entityManager.find(Project.class, id);

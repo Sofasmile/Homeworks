@@ -47,7 +47,7 @@ public class SkillDaoImpl implements SkillDao {
     }
 
     @Override
-    public Skill readSkill(Long id) {
+    public Skill getByIdSkill(Long id) {
         try {
             entityManager.getTransaction().begin();
             Skill skill = entityManager.find(Skill.class, id);

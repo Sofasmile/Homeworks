@@ -47,7 +47,7 @@ public class DeveloperDaoImpl implements DeveloperDao {
     }
 
     @Override
-    public Developer readDeveloper(Long id) {
+    public Developer getByIdDeveloper(Long id) {
         try {
             entityManager.getTransaction().begin();
             Developer developer = entityManager.find(Developer.class, id);

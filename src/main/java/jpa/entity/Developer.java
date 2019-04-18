@@ -10,6 +10,8 @@ import lombok.extern.log4j.Log4j;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -34,8 +36,9 @@ import java.util.Set;
 public class Developer extends Model {
     @Column(name = "age")
     private Integer age;
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
-    private String gender;
+    private GenderType gender;
     @Column(name = "salary")
     private Double salary;
 
